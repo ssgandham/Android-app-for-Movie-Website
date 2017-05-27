@@ -24,7 +24,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     EditText edit_search;
     Button button_search, button_prev, button_next;
     TextView text_search;
-    int result_count, current_page = 0, results_perpage = 5;
+    int result_count, current_page = 0, results_perpage = 10;
     List<String> list_movies = new ArrayList<String>();
 
     @Override
@@ -116,11 +116,27 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.prev:
                 String display_text = "";
-                Toast.makeText(Main2Activity.this, "previous button is pressed", Toast.LENGTH_LONG).show();
+                //Toast.makeText(Main2Activity.this, "previous button is pressed", Toast.LENGTH_LONG).show();
+                try{
+                    if(current_page-results_perpage>=0)
+                        current_page=current_page-results_perpage;
+
+                    for(int i=current_page;i<=current_page+results_perpage;i++){
+                        if(list_movies.get(i)!=null) {
+                            display_text = display_text + list_movies.get(i) + "\n";
+
+                        }
+                    }
+
+                    text_search.setText(display_text);
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 break;
             case R.id.next:
                 String display_text1 = "";
-                Toast.makeText(Main2Activity.this, "next button is pressed", Toast.LENGTH_LONG).show();
+                //Toast.makeText(Main2Activity.this, "next button is pressed", Toast.LENGTH_LONG).show();
                 try {
                     if((current_page+results_perpage)<result_count)
                     current_page += results_perpage;
@@ -128,8 +144,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                         if (list_movies.get(i) != null) {
                             display_text1 = display_text1 + list_movies.get(i) + "\n";
                         }
-                        text_search = (TextView) findViewById(R.id.display_text);
-                        text_search.setText("");
+//                        text_search = (TextView) findViewById(R.id.display_text);
+//                        text_search.setText("");
                         text_search.setText(display_text1);
                     }
                 } catch (Exception e) {
