@@ -95,7 +95,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                                     }
 
                                     if (result_count != 0) {
-                                        for (int i = 0; i < results_perpage; i++) {
+                                        for (int i = 0; (i < results_perpage) && (i < result_count); i++) {
                                             display_text = display_text + opt_split_string[i] + "\n";
                                             Log.d("Final String", display_text);
                                         }
