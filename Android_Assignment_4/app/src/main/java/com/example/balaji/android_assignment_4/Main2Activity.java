@@ -24,7 +24,10 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     EditText edit_search;
     Button button_search, button_prev, button_next;
     TextView text_search;
-    int result_count, current_page = 0, results_perpage = 10;
+    int result_count;
+    //int current_page = 0;
+    int results_perpage = 1;
+    int current_page = results_perpage;
     List<String> list_movies = new ArrayList<String>();
 
     @Override
@@ -121,7 +124,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     if(current_page-results_perpage>=0)
                         current_page=current_page-results_perpage;
 
-                    for(int i=current_page;i<=current_page+results_perpage;i++){
+                    for(int i=current_page;i<current_page+results_perpage;i++){
                         if(list_movies.get(i)!=null) {
                             display_text = display_text + list_movies.get(i) + "\n";
 
@@ -140,7 +143,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 try {
                     if((current_page+results_perpage)<result_count)
                     current_page += results_perpage;
-                    for (int i = current_page; i <= (current_page + results_perpage); i++) {
+                    for (int i = current_page; i < (current_page+results_perpage); i++) {
                         if (list_movies.get(i) != null) {
                             display_text1 = display_text1 + list_movies.get(i) + "\n";
                         }
