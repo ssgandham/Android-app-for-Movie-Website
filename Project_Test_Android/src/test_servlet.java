@@ -58,7 +58,7 @@ public class test_servlet extends HttpServlet {
 			String line;
 			BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			StringBuilder sb = new StringBuilder();
-			String user_name = "", pass_word = "";
+			String user_name = "", pass_word = "",empty_string="", send_output="";;
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
 			}
@@ -77,13 +77,13 @@ public class test_servlet extends HttpServlet {
 			} else {
 				System.out.println("Connection Successfull");
 			}
-
+			if(!string_search.equals(empty_string)){
 			Statement stmt = test_connection.createStatement();
 			String search_query = "select * from movies where title like '%" + string_search + "%' order by title;";
 			ResultSet rs = stmt.executeQuery(search_query);
 			ArrayList<String> list_movies = new ArrayList<String>();
 			StringBuilder sb_movies = new StringBuilder();
-			String send_output="";
+			
 			while (rs.next()) {
 				send_output = send_output+rs.getString("title") +",";
 				sb_movies.append(rs.getString("title"));
@@ -91,11 +91,12 @@ public class test_servlet extends HttpServlet {
 				sb_movies.append(",");
 				list_movies.add(rs.getString("title"));
 			}
-
+			}
 				response.setStatus(HttpServletResponse.SC_OK);
 				OutputStreamWriter writer = new OutputStreamWriter(response.getOutputStream());
-				
+				if(!send_output.equals(empty_string))
 				writer.write(send_output);
+				else writer.write("emptydata");
 				writer.flush();
 				writer.close();
 //				String json = new Gson().toJson(list_movies);

@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class Main2Activity extends AppCompatActivity implements View.OnClickListener {
@@ -26,7 +24,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     TextView text_search;
     int result_count;
     int current_page = 0;
-    int results_perpage = 1;
+    int results_perpage = 10;
     //int current_page = results_perpage;
     List<String> list_movies = new ArrayList<String>();
 
@@ -79,22 +77,31 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                             }
                             final String m = str;
                             final String[] opt_split_string = str.split(",");
-                            result_count = opt_split_string.length;
+                            Log.d("empty", opt_split_string[0]);
+                            if (!opt_split_string[0].equals("emptydata"))
+                                result_count = opt_split_string.length;
+                            else
+                                result_count = 0;
+                            Log.d("result count", Integer.toString(result_count));
                             in.close();
 
                             runOnUiThread(new Runnable() {
                                 public void run() {
 //                                    if (m.contains("true")) {
                                     String display_text = "";
+
                                     for (int i = 0; i < result_count; i++) {
                                         list_movies.add(opt_split_string[i]);
                                     }
-                                    for (int i = 0; i < results_perpage; i++) {
-                                        display_text = display_text + opt_split_string[i] + "\n";
-                                        Log.d("Final String", display_text);
+
+                                    if (result_count != 0) {
+                                        for (int i = 0; i < results_perpage; i++) {
+                                            display_text = display_text + opt_split_string[i] + "\n";
+                                            Log.d("Final String", display_text);
+                                        }
                                     }
 
-                                    if (!display_text.equals("")) {
+                                    if (result_count != 0) {
                                         text_search = (TextView) findViewById(R.id.display_text);
                                         text_search.setText(display_text);
                                     } else {
@@ -120,12 +127,12 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             case R.id.prev:
                 String display_text = "";
                 //Toast.makeText(Main2Activity.this, "previous button is pressed", Toast.LENGTH_LONG).show();
-                try{
-                    if(current_page-results_perpage>=0)
-                        current_page=current_page-results_perpage;
+                try {
+                    if (current_page - results_perpage >= 0)
+                        current_page = current_page - results_perpage;
 
-                    for(int i=current_page;i<current_page+results_perpage;i++){
-                        if(list_movies.get(i)!=null) {
+                    for (int i = current_page; i < current_page + results_perpage; i++) {
+                        if (list_movies.get(i) != null) {
                             display_text = display_text + list_movies.get(i) + "\n";
 
                         }
@@ -133,7 +140,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
                     text_search.setText(display_text);
 
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -141,9 +148,9 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 String display_text1 = "";
                 //Toast.makeText(Main2Activity.this, "next button is pressed", Toast.LENGTH_LONG).show();
                 try {
-                    if((current_page+results_perpage)<result_count)
-                    current_page += results_perpage;
-                    for (int i = current_page; i < (current_page+results_perpage); i++) {
+                    if ((current_page + results_perpage) < result_count)
+                        current_page += results_perpage;
+                    for (int i = current_page; i < (current_page + results_perpage); i++) {
                         if (list_movies.get(i) != null) {
                             display_text1 = display_text1 + list_movies.get(i) + "\n";
                         }
