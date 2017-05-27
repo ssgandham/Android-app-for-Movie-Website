@@ -25,9 +25,9 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     Button button_search, button_prev, button_next;
     TextView text_search;
     int result_count;
-    //int current_page = 0;
+    int current_page = 0;
     int results_perpage = 1;
-    int current_page = results_perpage;
+    //int current_page = results_perpage;
     List<String> list_movies = new ArrayList<String>();
 
     @Override
